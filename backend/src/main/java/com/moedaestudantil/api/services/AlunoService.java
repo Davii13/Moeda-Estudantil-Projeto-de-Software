@@ -33,17 +33,7 @@ public class AlunoService {
         Instituicao instituicao = instituicaoRepository.findById(dto.getInstituicaoId())
                 .orElseThrow(() -> new RuntimeException("Instituição não encontrada!"));
 
-        Aluno aluno = new Aluno();
-        aluno.setNome(dto.getNome());
-        aluno.setEmail(dto.getEmail());
-        aluno.setSenha(passwordEncoder.encode(dto.getSenha()));
-        aluno.setTipo(TipoUsuario.ALUNO);
-        aluno.setInstituicao(instituicao);
-        aluno.setCpf(dto.getCpf());
-        aluno.setRg(dto.getRg());
-        aluno.setEndereco(dto.getEndereco());
-        aluno.setCurso(dto.getCurso());
-        aluno.setSaldoMoedas(0.0);
+        Aluno aluno = mapearParaEntidade(dto, instituicao);
 
         try {
             Aluno salvo = alunoRepository.save(aluno);
@@ -58,6 +48,21 @@ public class AlunoService {
             }
             throw new RuntimeException("Dados inválidos ou já existentes");
         }
+    }
+
+    private Aluno mapearParaEntidade(AlunoCadastroDTO dto, Instituicao instituicao) {
+        Aluno aluno = new Aluno();
+        aluno.setNome(dto.getNome());
+        alumno.setEmail(dto.getEmail());
+        alumno.setSenha(passwordEncoder.encode(dto.getSenha()));
+        alumno.setTipo(TipoUsuario.ALUNO);
+        alumno.setInstituicao(instituicao);
+        alumno.setCpf(dto.getCpf());
+        alumno.setRg(dto.getRg());
+        alumno.setEndereco(dto.getEndereco());
+        aluno.setCurso(dto.getCurso());
+        aluno.setSaldoMoedas(0.0);
+        return aluno;
     }
 
     public LoginResponseDTO login(LoginRequestDTO dto) {

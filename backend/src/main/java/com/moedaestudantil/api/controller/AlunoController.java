@@ -34,10 +34,7 @@ public class AlunoController {
             @RequestBody AlunoPerfilDTO dto,
             @PathVariable Long id,
             @RequestHeader(value = "Authorization", required = false) String authorization) {
-        Long alunoIdAutenticado = extractAlunoIdFromToken(authorization);
-        if (!id.equals(alunoIdAutenticado)) {
-            throw new SecurityException("Você não tem permissão para editar este perfil");
-        }
+        validarPermissaoAcesso(id, authorization, "editar este perfil");
         AlunoResponseDTO resultado = alunoService.atualizarPerfil(id, dto);
         return ResponseEntity.ok(resultado);
     }
